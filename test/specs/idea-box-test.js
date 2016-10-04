@@ -72,4 +72,42 @@ describe('attributes on our application',function(){
 
     assert.equal(browser.isExisting('li'), false );
   })
+
+  it('allows me to submit multiple ideas and delete one idea', function(){
+
+   var formTitleInput       = browser.element('#idea-title');
+   formTitleInput.setValue('greatTitle');
+   var formDescriptionInput = browser.element('#idea-description');
+    formDescriptionInput.setValue('great description');
+
+
+   assert.equal(formTitleInput.getValue(), 'greatTitle');
+   assert.equal(formDescriptionInput.getValue(), 'great description');
+
+   browser.click('#submit-button');
+
+   formTitleInput.setValue('another great Title');
+   formDescriptionInput.setValue('another great description');
+
+   assert.equal(formTitleInput.getValue(), 'another great Title');
+   assert.equal(formDescriptionInput.getValue(), 'another great description');
+
+   browser.click('#submit-button');
+
+   formTitleInput.setValue('suh');
+   formDescriptionInput.setValue('dude');
+
+   browser.click('#submit-button');
+
+   var allIdeas = browser.elements("li").getText()
+
+   assert.equal(allIdeas.length, 3 )
+
+   browser.click('.delete-idea')
+
+   var allIdeas = browser.elements("li").getText()
+
+   assert.equal(allIdeas.length, 2)
+
+ });
 })
